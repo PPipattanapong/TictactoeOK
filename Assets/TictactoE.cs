@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TictactoE : MonoBehaviour
 {
@@ -15,16 +16,24 @@ public class TictactoE : MonoBehaviour
 
     private void Start()
     {
-        currentPlayer = ai; // AI starts first
+        currentPlayer = ai; //?????????????
         InitializeBoard();
-        AIMove(); // AI makes the first move
-        foreach (Button button in buttons)
+        AIMove(); //Ai????
+        for (int i = 0; i < buttons.Length; i++)
         {
+            Button button = buttons[i];
             button.onClick.AddListener(() => ButtonClicked(button));
         }
     }
 
-    private void InitializeBoard()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+    private void InitializeBoard() //??????
     {
         board = new string[3, 3];
         for (int i = 0; i < 3; i++)
@@ -107,9 +116,9 @@ public class TictactoE : MonoBehaviour
         if (result != null)
         {
             if (result == ai)
-                return 10 - depth; // Adjust the score based on depth
+                return 10 - depth;
             else if (result == human)
-                return depth - 10; // Adjust the score based on depth
+                return depth - 10;
             else
                 return 0;
         }
@@ -154,49 +163,34 @@ public class TictactoE : MonoBehaviour
 
     private string CheckWinner()
     {
-        // Check rows
+        //??????????
         for (int i = 0; i < 3; i++)
         {
             if (board[i, 0] != "" && board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2])
-                return board[i, 0]; // Return the symbol of the winner
+                return board[i, 0]; //????????????
         }
 
-        // Check columns
+        //???????????
         for (int i = 0; i < 3; i++)
         {
             if (board[0, i] != "" && board[0, i] == board[1, i] && board[0, i] == board[2, i])
-                return board[0, i]; // Return the symbol of the winner
+                return board[0, i];
         }
 
-        // Check diagonals
+        //?????????
         if (board[0, 0] != "" && board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2])
-            return board[0, 0]; // Return the symbol of the winner
+            return board[0, 0];
         if (board[0, 2] != "" && board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0])
-            return board[0, 2]; // Return the symbol of the winner
+            return board[0, 2];
 
-        // Check for a tie
-        bool isTie = true;
-        foreach (var cell in board)
-        {
-            if (cell == "")
-            {
-                isTie = false;
-                break;
-            }
-        }
-        if (isTie)
-            return "tie";
-
-        return null; // No winner yet
+        return null; //???????????
     }
-
-
 
     private void GameOver(string result)
     {
-        foreach (Button button in buttons)
+        for (int i = 0; i < buttons.Length; i++)
         {
-            button.interactable = false;
+            buttons[i].interactable = false;
         }
         endGameText.text = result;
     }
