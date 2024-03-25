@@ -16,9 +16,9 @@ public class TictactoE : MonoBehaviour
 
     private void Start()
     {
-        currentPlayer = ai; //?????????????
+        currentPlayer = ai; //who playing rn
         InitializeBoard();
-        AIMove(); //Ai????
+        AIMove(); //Ai turn
         for (int i = 0; i < buttons.Length; i++)
         {
             Button button = buttons[i];
@@ -33,7 +33,7 @@ public class TictactoE : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-    private void InitializeBoard() //??????
+    private void InitializeBoard() //board set up
     {
         board = new string[3, 3];
         for (int i = 0; i < 3; i++)
@@ -163,27 +163,36 @@ public class TictactoE : MonoBehaviour
 
     private string CheckWinner()
     {
-        //??????????
+        //check rows
         for (int i = 0; i < 3; i++)
         {
             if (board[i, 0] != "" && board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2])
-                return board[i, 0]; //????????????
+            {
+                return board[i, 0]; //return symbol who is winning
+            }
         }
 
-        //???????????
+        //check columns
         for (int i = 0; i < 3; i++)
         {
             if (board[0, i] != "" && board[0, i] == board[1, i] && board[0, i] == board[2, i])
+            {
                 return board[0, i];
+            }
         }
 
-        //?????????
+        //check diagonals
         if (board[0, 0] != "" && board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2])
+        {
             return board[0, 0];
-        if (board[0, 2] != "" && board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0])
-            return board[0, 2];
+        }
 
-        return null; //???????????
+        else if (board[0, 2] != "" && board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0])
+        {
+            return board[0, 2];
+        }
+
+        return null; //no winning
     }
 
     private void GameOver(string result)
