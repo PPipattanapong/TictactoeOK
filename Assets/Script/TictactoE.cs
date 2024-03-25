@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class TictactoE : MonoBehaviour
 {
-    public Button[] buttons;
-    public TextMeshProUGUI[] buttonTexts;
-    public TextMeshProUGUI endGameText;
+    [SerializeField] private Button[] buttons;
+    [SerializeField] private TextMeshProUGUI[] buttonTexts;
+    [SerializeField] private TextMeshProUGUI endGameText;
 
     private string[,] board;
     private string currentPlayer;
@@ -18,7 +18,7 @@ public class TictactoE : MonoBehaviour
     {
         currentPlayer = ai; //who playing rn
         InitializeBoard();
-        AIMove(); //Ai turn
+        AIMove(); //ai turn
         for (int i = 0; i < buttons.Length; i++)
         {
             Button button = buttons[i];
@@ -33,6 +33,7 @@ public class TictactoE : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
     private void InitializeBoard() //board set up
     {
         board = new string[3, 3];
@@ -168,11 +169,11 @@ public class TictactoE : MonoBehaviour
         {
             if (board[i, 0] != "" && board[i, 0] == board[i, 1] && board[i, 0] == board[i, 2])
             {
-                return board[i, 0]; //return symbol who is winning
+                return board[i, 0]; //return symbol of the winner
             }
         }
 
-        //check columns
+        // check columns
         for (int i = 0; i < 3; i++)
         {
             if (board[0, i] != "" && board[0, i] == board[1, i] && board[0, i] == board[2, i])
@@ -181,18 +182,18 @@ public class TictactoE : MonoBehaviour
             }
         }
 
-        //check diagonals
+        // check diagonals
         if (board[0, 0] != "" && board[0, 0] == board[1, 1] && board[0, 0] == board[2, 2])
         {
             return board[0, 0];
         }
-
         else if (board[0, 2] != "" && board[0, 2] == board[1, 1] && board[0, 2] == board[2, 0])
         {
             return board[0, 2];
         }
 
-        return null; //no winning
+        // no winner
+        return null;
     }
 
     private void GameOver(string result)
